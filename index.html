@@ -19,6 +19,7 @@
     /* google analytics */
     /****************************************/
     window.dataLayer = window.dataLayer || [];
+
     function gtag() {
       dataLayer.push(arguments);
     }
@@ -33,14 +34,14 @@
     window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
     window['_fs_org'] = FULL_STORY_ORG;
     window['_fs_namespace'] = FULL_STORY_NAMESPACE;
-    (function(m, n, e, t, l, o, g, y) {
+    (function (m, n, e, t, l, o, g, y) {
       if (e in m) {
         if (m.console && m.console.log) {
           m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
         }
         return;
       }
-      g = m[e] = function(a, b, s) {
+      g = m[e] = function (a, b, s) {
         g.q ? g.q.push([a, b, s]) : g._api(a, b, s);
       };
       g.q = [];
@@ -50,45 +51,50 @@
       o.src = 'https://' + _fs_script;
       y = n.getElementsByTagName(t)[0];
       y.parentNode.insertBefore(o, y);
-      g.identify = function(i, v, s) {
-        g(l, { uid: i }, s);
+      g.identify = function (i, v, s) {
+        g(l, {
+          uid: i
+        }, s);
         if (v) g(l, v, s);
       };
-      g.setUserVars = function(v, s) {
+      g.setUserVars = function (v, s) {
         g(l, v, s);
       };
-      g.event = function(i, v, s) {
-        g('event', { n: i, p: v }, s);
+      g.event = function (i, v, s) {
+        g('event', {
+          n: i,
+          p: v
+        }, s);
       };
-      g.anonymize = function() {
+      g.anonymize = function () {
         g.identify(!!0);
       };
-      g.shutdown = function() {
+      g.shutdown = function () {
         g('rec', !1);
       };
-      g.restart = function() {
+      g.restart = function () {
         g('rec', !0);
       };
-      g.log = function(a, b) {
+      g.log = function (a, b) {
         g('log', [a, b]);
       };
-      g.consent = function(a) {
+      g.consent = function (a) {
         g('consent', !arguments.length || a);
       };
-      g.identifyAccount = function(i, v) {
+      g.identifyAccount = function (i, v) {
         o = 'account';
         v = v || {};
         v.acctId = i;
         g(o, v);
       };
-      g.clearUserCookie = function() {};
+      g.clearUserCookie = function () {};
       g._w = {};
       y = 'XMLHttpRequest';
       g._w[y] = m[y];
       y = 'fetch';
       g._w[y] = m[y];
       if (m[y])
-        m[y] = function() {
+        m[y] = function () {
           return g._w[y].apply(this, arguments);
         };
       g._v = '1.2.0';
@@ -100,7 +106,8 @@
     var SHEET = [];
     var REF;
     var JSON_URL = `https://spreadsheets.google.com/feeds/cells/${SPREADSHEET_ID}/1/public/full?alt=json`;
-    var VENMO_PAYMENT_MESSAGE = '?txn=pay&note=Support%20local%20service%20workers%20on%20http://bailout.nyc%20%E2%9D%A4%EF%B8%8F';
+    var VENMO_PAYMENT_MESSAGE =
+      '?txn=pay&note=Support%20local%20service%20workers%20on%20http://bailout.nyc%20%E2%9D%A4%EF%B8%8F';
 
     const showTellMeMore = () => {
       var x = document.getElementById('tell_me_more');
@@ -123,19 +130,20 @@
       document.getElementById(`business_${row_number}_description`).style.display = 'block';
     };
 
-const getQueryParams = () => {
-    var href = window.location.href;
-    field = "ref";
-    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
-    REF = reg.exec(href);
-    if(REF != null && (REF.includes("republic") | REF.includes("Republic"))) {
-      VENMO_PAYMENT_MESSAGE = "?txn=pay&note=Support%20nyc%20service%20workers%20on%20http://bailout.nyc%20%E2%9D%A4%EF%B8%8F%20http://republic.co%20will%20match%20this%20donation.";
-      document.getElementById("main_venmo_link").href="https://venmo.com/bailoutnyc" + VENMO_PAYMENT_MESSAGE;
-    }
-};
+    const getQueryParams = () => {
+      var href = window.location.href;
+      field = "ref";
+      var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+      REF = reg.exec(href);
+      if (REF != null && (REF.includes("republic") | REF.includes("Republic"))) {
+        VENMO_PAYMENT_MESSAGE =
+          "?txn=pay&note=Support%20nyc%20service%20workers%20on%20http://bailout.nyc%20%E2%9D%A4%EF%B8%8F%20http://republic.co%20will%20match%20this%20donation.";
+        document.getElementById("main_venmo_link").href = "https://venmo.com/bailoutnyc" + VENMO_PAYMENT_MESSAGE;
+      }
+    };
 
     const sendGAEvent = (send, type, event_category, event_action, event_label, event_value) => {
-      if(REF != null && (event_category == "GoFundMe Buttons" || event_category == "Venmo Buttons")) {
+      if (REF != null && (event_category == "GoFundMe Buttons" || event_category == "Venmo Buttons")) {
         event_category = event_category + " " + REF;
       }
       if (type == 'event') {
@@ -155,6 +163,7 @@ const getQueryParams = () => {
         '4': 'location',
         '5': 'description',
         '9': 'gofundme_url',
+        '11': 'order_link',
       };
       var rows = [];
       result.feed.entry.map(e => {
@@ -199,7 +208,7 @@ const getQueryParams = () => {
         .map((row, i) => {
           let outer = document.createElement('div');
           outer.className = `place_pill`;
-          ['business_name', 'location', 'venmo_handle', 'description', 'gofundme_url'].map(k => {
+          ['business_name', 'location', 'venmo_handle', 'order_link', 'description', 'gofundme_url'].map(k => {
             let div = document.createElement('div');
             div.className = `div_content_${k}`;
             div.id = `business_${i}_${k}`;
@@ -243,13 +252,20 @@ const getQueryParams = () => {
               }
             } else if (k == 'business_name' || k == 'location') {
               div.textContent = row[k];
+            } else if (k == 'order_link' && row[k] != null) {
+              div.innerHTML =
+                div.innerHTML =
+                "<div class='order_pill'><a target='_blank' href='" +
+                row['order_link'] +
+                '\' onClick=\'sendGAEvent("send", "event" , "Order Buttons", "Clicked individual business", "' +
+                row['order_link'] + '" , "' + i + " \");'>Order from " + row['business_name'] + "</a></div>";
             } else if (k == 'description') {
               let long_description_div = document.createElement('div');
               long_description_div.classname = `div_content_${k}`;
               long_description_div.id = `business_${i}_long_description`;
 
               var description = row[k];
-              if(description != null) {
+              if (description != null) {
                 var shortened_description = description.substring(0, 120);
                 if (description.length > 120) {
                   shortened_description =
@@ -272,10 +288,13 @@ const getQueryParams = () => {
           });
         });
 
-        console.log(ALL_VENMO_USERS);
-        if(ENABLE_VENMO_ALL_BUSINESS_BUTTON) {
-          $("#all_venmo_users").html('<a target="_blank" href="http://venmo.com/?txn=pay&recipients='+ALL_VENMO_USERS.join(',')+'&note=www.bailout.nyc ❤️ / paying restaurants to support service workers" onClick="sendGAEvent(\'send\', \'event\', \'Header Links\', \'Clicked All Venmo\', \'From top\', \'0\')"><img src="./assets/venmo-transparent.png" width="25px;" />Venmo All '+ ALL_VENMO_USERS.length +' Establishments</a>');
-        }
+      console.log(ALL_VENMO_USERS);
+      if (ENABLE_VENMO_ALL_BUSINESS_BUTTON) {
+        $("#all_venmo_users").html('<a target="_blank" href="http://venmo.com/?txn=pay&recipients=' + ALL_VENMO_USERS
+          .join(',') +
+          '&note=www.bailout.nyc ❤️ / paying restaurants to support service workers" onClick="sendGAEvent(\'send\', \'event\', \'Header Links\', \'Clicked All Venmo\', \'From top\', \'0\')"><img src="./assets/venmo-transparent.png" width="25px;" />Venmo All ' +
+          ALL_VENMO_USERS.length + ' Establishments</a>');
+      }
     };
     const searchFilter = () => {
       const searchInput = document.getElementById('search');
@@ -294,11 +313,11 @@ const getQueryParams = () => {
       return true;
     };
     const onBodyLoad = () => {
-      $.ajax(JSON_URL).done(function(result) {
+      $.ajax(JSON_URL).done(function (result) {
         SHEET = parseSheetResult(result);
         drawTable(SHEET);
       });
-      if(REPUBLIC_PARTNERSHIP) {
+      if (REPUBLIC_PARTNERSHIP) {
         document.getElementById("republic_partnership").style.display = "block";
       }
       getQueryParams();
@@ -310,23 +329,21 @@ const getQueryParams = () => {
       document.getElementById("search").value = businesses[random_business_index]['business_name'];
       searchFilter();
     }
-
   </script>
 
   <title>bailoutbos.com</title>
   <meta property="og:image" content="./assets/bailoutbos.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://bailoutbos.com" />
+  <meta property="og:url" content="https://bailoutbos.com" />
   <meta property="og:title" content="bailoutbos.com" />
-  <meta property="og:description" content="bailoutbos.com is a citizen-organized fund to help provide financial relief for service workers whose businesses have closed in response to covid-19." />
+  <meta property="og:description"
+    content="bailoutbos.com is a citizen-organized fund to help provide financial relief for service workers whose businesses have closed in response to covid-19." />
   <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    rel="icon"
-    href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/heavy-black-heart_2764.png"
-  />
+  <link rel="icon"
+    href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/heavy-black-heart_2764.png" />
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css" />
 
   <style type="text/css">
@@ -334,7 +351,8 @@ const getQueryParams = () => {
       font-family: 'Material Icons';
       font-weight: normal;
       font-style: normal;
-      font-size: 24px; /* Preferred icon size */
+      font-size: 24px;
+      /* Preferred icon size */
       display: inline-block;
       line-height: 1;
       text-transform: none;
@@ -354,30 +372,36 @@ const getQueryParams = () => {
       /* Support for IE. */
       font-feature-settings: 'liga';
     }
+
     body {
       font-family: 'Lato', sans-serif;
       background-color: #dae5f2;
     }
+
     .nav {
       text-align: center;
       padding: 4px;
       font-size: 14px;
     }
+
     .nav a {
       display: inline-block;
       margin: 0 4px;
     }
+
     a,
     a:visited,
     a:active {
       color: #457b9d;
     }
+
     .button-wrapper {
       display: block;
       text-align: center;
       margin-left: 8px;
       margin-right: 8px;
     }
+
     .button {
       border: none;
       border-radius: 4px;
@@ -423,15 +447,18 @@ const getQueryParams = () => {
       display: flex;
       flex-direction: row;
     }
+
     #search_icon {
       color: inherit;
       font-weight: bold;
       padding-right: 5px;
     }
+
     #search_icon i {
       line-height: 24px;
       font-size: 18px;
     }
+
     #search {
       flex-grow: 1;
       vertical-align: bottom;
@@ -442,9 +469,11 @@ const getQueryParams = () => {
       color: #333;
       outline: none;
     }
+
     #search::placeholder {
       color: #333;
     }
+
     .flex_item {
       flex-basis: auto;
     }
@@ -465,13 +494,16 @@ const getQueryParams = () => {
       color: #333;
       vertical-align: top;
     }
+
     #sheet tr {
       border-bottom: 1px solid #efefef;
       border-right: 1px solid #efefef;
     }
+
     #sheet .tr_0 td {
       font-weight: bold;
     }
+
     #sheet .td_description {
       width: 400px;
     }
@@ -548,6 +580,21 @@ const getQueryParams = () => {
       color: white;
     }
 
+    .order_pill {
+      margin: 20px 0px;
+    }
+
+    .order_pill a {
+      text-decoration: none;
+      background: #404040;
+
+      padding: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+
     ol {
       list-style: none;
       padding-left: 2rem;
@@ -557,6 +604,7 @@ const getQueryParams = () => {
     ol li {
       counter-increment: circle-counter;
     }
+
     ol li:before {
       border: 1px solid black;
       content: counter(circle-counter);
@@ -574,47 +622,21 @@ const getQueryParams = () => {
 <body onload="onBodyLoad();">
   <a name="home"></a>
   <div class="nav nav-top center mw7">
-    <a
-      href="#home"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked home', 'From top', '0')"
-      >Home</a
-    >
-    <a
-      href="#businesses"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked businesses', 'From top', '0')"
-      >Businesses</a
-    >
-    <a
-      target="_blank"
-      href="http://venmo.com/bailoutnyc"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Venmo', 'From top', '0')"
-      >Venmo</a
-    >
+    <a href="#home" onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked home', 'From top', '0')">Home</a>
+    <a href="#businesses"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked businesses', 'From top', '0')">Businesses</a>
+    <a target="_blank" href="http://venmo.com/bailoutnyc"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Venmo', 'From top', '0')">Venmo</a>
 
-    <a
-      target="_blank"
-      href="http://instagram.com/bailoutnyc"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Instagram', 'From top', '0')"
-      >Instagram</a
-    >
-    <a
-      target="_blank"
-      href="http://twitter.com/bailoutnyc"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Twitter', 'From top', '0')"
-      >Twitter</a
-    >
-    <a
-      href="#about-us"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked whos behind this', 'From top', '0')"
-      >About Us</a
-    >
+    <a target="_blank" href="http://instagram.com/bailoutbos"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Instagram', 'From top', '0')">Instagram</a>
+    <a target="_blank" href="http://twitter.com/bailoutnyc"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Twitter', 'From top', '0')">Twitter</a>
+    <a href="#about-us"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked whos behind this', 'From top', '0')">About Us</a>
 
-    <a
-      target="_blank"
-      href="https://github.com/kortina/bailout-nyc"
-      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Github', 'From top', '0')"
-      >Fork on Github</a
-    >
+    <a target="_blank" href="https://github.com/kortina/bailout-nyc"
+      onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Github', 'From top', '0')">Fork on Github</a>
   </div>
 
   <div class="mw7 ph4 center">
@@ -634,13 +656,10 @@ const getQueryParams = () => {
     <div class="button-wrapper" style="margin-bottom:10px; text-align:left;">
 
       <div class="venmo_pill">
-        <a
-          id="main_venmo_link"
-          target="_blank"
+        <a id="main_venmo_link" target="_blank"
           href="https://venmo.com/bailoutnyc?txn=pay&note=Support%20nyc%20service%20workers%20on%20http://bailoutbos.com%20%E2%9D%A4%EF%B8%8F"
-          onClick="sendGAEvent('send', 'event', 'Venmo Buttons', 'bailoutnyc main button', '0', '0')"
-          ><img src="./assets/venmo-transparent.png" width="25px;" />Venmo @bailoutnyc</a
-        >
+          onClick="sendGAEvent('send', 'event', 'Venmo Buttons', 'bailoutnyc main button', '0', '0')"><img
+            src="./assets/venmo-transparent.png" width="25px;" />Venmo @bailoutnyc</a>
       </div>
 
       <div id="all_venmo_users" class="venmo_pill"></div>
@@ -668,20 +687,14 @@ const getQueryParams = () => {
 
         <br />
         <div id="tell_me_more_header">
-          <a
-            href=""
-            onClick="showTellMeMore(); sendGAEvent('send', 'event', 'Tell me more', 'Clicked tell me more', '0', '0'); return false;"
-            >Tell me more...</a
-          >
+          <a href=""
+            onClick="showTellMeMore(); sendGAEvent('send', 'event', 'Tell me more', 'Clicked tell me more', '0', '0'); return false;">Tell
+            me more...</a>
         </div>
         <div id="tell_me_more" style="display:none">
           <p>
             In order to slow the spread of the coronavirus, the local government is
-            <a
-              target="_blank"
-              href="https://www1.nyc.gov/site/doh/health/health-topics/coronavirus.page"
-              >advising</a
-            >
+            <a target="_blank" href="https://www1.nyc.gov/site/doh/health/health-topics/coronavirus.page">advising</a>
             restaurants, bars, cafes, nightclubs, movie theaters, small theater houses, and concert
             venues to close. Elsewhere closures are even more comprehensive.
           </p>
@@ -722,35 +735,29 @@ const getQueryParams = () => {
 
       </div>
 
-      <div id="republic_partnership"
-        class="bg-white br1 pa3"
-        style="border-radius:4px; margin-top:20px; margin-bottom: 15px; display:none;"
-      >
+      <div id="republic_partnership" class="bg-white br1 pa3"
+        style="border-radius:4px; margin-top:20px; margin-bottom: 15px; display:none;">
         <h3 class="f4 measure-narrow mt0">
           Republic is Matching Donations
         </h3>
-        <a target="_blank" href="https://republic.co/" style="border:0px; float:left; padding-right:20px;"><img style="width:100px; margin-bottom:5px;" src="https://assets.republic.co/assets/logo/full/black/150x38/logo-07ec836827d3225e54921347fb891e33ae66baaaef71f18379f3b73432fca8e4.svg" /></a><a target="_blank" href="https://republic.co/">Republic</a> is a NY-based investment platform supporting businesses across the country, and is partnering with bailout.nyc to
-        match donations up to $1,000 per week to support service workers during this time. <span style="font-weight:bold;">Donate now to double your impact!</span>
+        <a target="_blank" href="https://republic.co/" style="border:0px; float:left; padding-right:20px;"><img
+            style="width:100px; margin-bottom:5px;"
+            src="https://assets.republic.co/assets/logo/full/black/150x38/logo-07ec836827d3225e54921347fb891e33ae66baaaef71f18379f3b73432fca8e4.svg" /></a><a
+          target="_blank" href="https://republic.co/">Republic</a> is a NY-based investment platform supporting
+        businesses across the country, and is partnering with bailout.nyc to
+        match donations up to $1,000 per week to support service workers during this time. <span
+          style="font-weight:bold;">Donate now to double your impact!</span>
       </div>
 
-      <div
-        class="bg-white br1 pa3"
-        style="border-radius:4px; margin-top:20px; margin-bottom: 15px;"
-      >
+      <div class="bg-white br1 pa3" style="border-radius:4px; margin-top:20px; margin-bottom: 15px;">
         <h3 class="f4 measure-narrow mt0">
           Add a Business
         </h3>
         Tell your favorite local businesses to register on bailoutbos.com so we can all support their
         staff.<br /><br />
         If you own or operate a business affected by Covid-19,
-        <a
-          id="register_business_link"
-          style="font-weight:900;"
-          target="_blank"
-          href=""
-          onClick="sendGAEvent('send', 'event', 'Businesses', 'Clicked form link', '0', '0')"
-          >fill out this form</a
-        >
+        <a id="register_business_link" style="font-weight:900;" target="_blank" href=""
+          onClick="sendGAEvent('send', 'event', 'Businesses', 'Clicked form link', '0', '0')">fill out this form</a>
         to register your business for listing + relief.
         <script>
           document.getElementById('register_business_link').href = REGISTER_FORM_URL;
@@ -764,7 +771,8 @@ const getQueryParams = () => {
         </h3>
         <div class="div_content_venmo_handle">
           <div class="lucky_pill">
-            <a onClick="randomlyChooseBusiness(); sendGAEvent('send', 'event', 'Randomizer', 'Clicked random business generator', '0', '0');" href="#random">
+            <a onClick="randomlyChooseBusiness(); sendGAEvent('send', 'event', 'Randomizer', 'Clicked random business generator', '0', '0');"
+              href="#random">
               Randomly choose a business
             </a>
           </div>
@@ -780,14 +788,8 @@ const getQueryParams = () => {
         <div id="search_icon" class="flex_item">
           <i class="material-icons">search</i>
         </div>
-        <input
-          autocomplete="off"
-          id="search"
-          class="flex_item"
-          type="text"
-          placeholder="Search businesses..."
-          onkeyup="searchFilter();"
-        />
+        <input autocomplete="off" id="search" class="flex_item" type="text" placeholder="Search businesses..."
+          onkeyup="searchFilter();" />
       </div>
       <div id="sheet" style="margin-bottom:15px;"></div>
     </div>
@@ -798,10 +800,10 @@ const getQueryParams = () => {
     <div style="text-align:center;">
       <a name="about-us" style="font-size:16px; color:inherit;">About Us</a>
       <div
-        style="font-size:12px; margin-top:12px; margin-bottom:5px; margin-left:10px; margin-right:10px; text-align: center; "
-      >
+        style="font-size:12px; margin-top:12px; margin-bottom:5px; margin-left:10px; margin-right:10px; text-align: center; ">
         <div style="max-width:410px; margin:0 auto;">
-          We were inspired by the work done at <a href="https://bailout.nyc">bailout.nyc</a> and wanted to create one for Boston.
+          We were inspired by the work done at <a href="https://bailout.nyc">bailout.nyc</a> and wanted to create one
+          for Boston.
         </div>
         <br />
         bailout.nyc ❤️<br />
@@ -813,50 +815,23 @@ const getQueryParams = () => {
 
 
     <div class="nav nav-bottom center mw7">
-      <a
-        href="#home"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked home', 'From bottom', '0')"
-        >Home</a
-      >
-      <a
-        href="#businesses"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked businesses', 'From bottom', '0')"
-        >Businesses</a
-      >
-      <a
-        target="_blank"
-        href="http://venmo.com/bailoutnyc"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Venmo', 'From bottom', '0')"
-        >Venmo</a
-      >
-      <a
-        target="_blank"
-        href="http://instagram.com/bailoutbos"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Instagram', 'From bottom', '0')"
-        >Instagram</a
-      >
-      <a
-        target="_blank"
-        href="http://twitter.com/bailoutnyc"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Twitter', 'From bottom', '0')"
-        >Twitter</a
-      >
-      <a
-        href="#about-us"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked whos behind this', 'From bottom', '0')"
-        >About Us</a
-      >
-      <a
-        target="_blank"
-        href="https://github.com/kortina/bailout-nyc"
-        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Github', 'From bottom', '0')"
-        >Fork on Github</a
-      >
+      <a href="#home"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked home', 'From bottom', '0')">Home</a>
+      <a href="#businesses"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked businesses', 'From bottom', '0')">Businesses</a>
+      <a target="_blank" href="http://venmo.com/bailoutnyc"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Venmo', 'From bottom', '0')">Venmo</a>
+      <a target="_blank" href="http://instagram.com/bailoutbos"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Instagram', 'From bottom', '0')">Instagram</a>
+      <a target="_blank" href="http://twitter.com/bailoutnyc"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Twitter', 'From bottom', '0')">Twitter</a>
+      <a href="#about-us"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked whos behind this', 'From bottom', '0')">About
+        Us</a>
+      <a target="_blank" href="https://github.com/kortina/bailout-nyc"
+        onClick="sendGAEvent('send', 'event', 'Header Links', 'Clicked Github', 'From bottom', '0')">Fork on Github</a>
     </div>
   </div>
 
-  <script
-    type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-  ></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </body>
